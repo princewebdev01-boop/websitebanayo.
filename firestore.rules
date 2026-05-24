@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all to prevent orphaned writes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions for security auditing and ABAC rules
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == "princewebdev01@gmail.com";
+    }
+
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+
+    // Validation blueprints
+    function isValidInquiry(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 0 && data.email.size() <= 150
+        && data.phone is string && data.phone.size() > 0 && data.phone.size() <= 30
+        && data.service is string && data.service.size() > 0 && data.service.size() <= 100
+        && data.projectDetails is string && data.projectDetails.size() > 0 && data.projectDetails.size() <= 2000
+        && (data.company == null || data.company is string)
+        && (data.read == null || data.read is bool);
+    }
+
+    function isValidProject(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 200
+        && data.category is string && data.category.size() > 0 && data.category.size() <= 100
+        && data.description is string && data.description.size() > 0 && data.description.size() <= 3000
+        && data.technologies is list
+        && data.features is list;
+    }
+
+    function isValidTestimonial(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.role is string && data.role.size() > 0 && data.role.size() <= 100
+        && data.company is string && data.company.size() > 0 && data.company.size() <= 100
+        && data.review is string && data.review.size() > 0 && data.review.size() <= 2000
+        && data.rating is number;
+    }
+
+    // Inquiries collection
+    match /inquiries/{inquiryId} {
+      allow create: if isValidId(inquiryId) && isValidInquiry(request.resource.data);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Projects collection
+    match /projects/{projectId} {
+      allow read, get, list: if true;
+      allow create, update: if isAdmin() && isValidId(projectId) && isValidProject(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Testimonials collection
+    match /testimonials/{testimonialId} {
+      allow read, get, list: if true;
+      allow create, update: if isAdmin() && isValidId(testimonialId) && isValidTestimonial(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Website content configuration collection
+    match /siteContent/{contentId} {
+      allow read, get, list: if true;
+      allow create, update: if isAdmin() && isValidId(contentId);
+      allow delete: if isAdmin();
+    }
+  }
+}

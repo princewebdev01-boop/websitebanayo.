@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Client project inquiries and consult requests submitted via the contact forms.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The client's full name" },
+        "email": { "type": "string", "format": "email", "description": "The client's contact email address" },
+        "phone": { "type": "string", "description": "The client's contact phone number" },
+        "company": { "type": "string", "description": "Optional company or brand name" },
+        "service": { "type": "string", "description": "The agency service they are interested in" },
+        "projectDetails": { "type": "string", "description": "Detailed description of the client's project" },
+        "read": { "type": "boolean", "description": "Whether the message has been read by the admin" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server-side timestamp of submission" }
+      },
+      "required": ["name", "email", "phone", "service", "projectDetails"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "DYNAMIC Web and app showcase projects shown in the portfolio section.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique id matching target code specs" },
+        "title": { "type": "string", "description": "Visual title of the project" },
+        "category": { "type": "string", "description": "Filter class or category tag" },
+        "description": { "type": "string", "description": "Paragraph detailing build focus" },
+        "technologies": { "type": "array", "description": "Libraries and frameworks used" },
+        "features": { "type": "array", "description": "Specific project components delivered" },
+        "demoUrl": { "type": "string", "description": "Target live preview address link" },
+        "colorScheme": { "type": "object", "description": "Styling colors overlay" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Database insertion date" }
+      },
+      "required": ["id", "title", "category", "description", "technologies", "features"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Dynamic user and client reviews.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique testimonial id" },
+        "name": { "type": "string", "description": "Name of the reviewer" },
+        "role": { "type": "string", "description": "Reviewer job role" },
+        "company": { "type": "string", "description": "Company worked for" },
+        "review": { "type": "string", "description": "The text feedback review content" },
+        "rating": { "type": "number", "description": "Rating out of 5 stars" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Database insertion date" }
+      },
+      "required": ["id", "name", "role", "company", "review", "rating"]
+    },
+    "SiteContent": {
+      "title": "SiteContent",
+      "description": "Custom global settings and section copywriting options.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique section ID" },
+        "heroHeading": { "type": "string", "description": "Main above-the-fold display text" },
+        "heroSubheading": { "type": "string", "description": "Supporting brand tagline text" },
+        "aboutBio": { "type": "string", "description": "About section summary story" },
+        "socialWhatsApp": { "type": "string", "description": "WhatsApp direct click link" },
+        "socialEmail": { "type": "string", "description": "Public support email address" },
+        "socialInstagram": { "type": "string", "description": "Instagram profile URL" },
+        "socialTelegram": { "type": "string", "description": "Telegram user tag url" }
+      },
+      "required": ["id"]
+    }
+  },
+  "firestore": {
+    "inquiries/{inquiryId}": { "schema": "Inquiry", "description": "Inquiries submitted via contact forms" },
+    "projects/{projectId}": { "schema": "Project", "description": "Dynamic web/app projects showcase catalog" },
+    "testimonials/{testimonialId}": { "schema": "Testimonial", "description": "Dynamic client feedback cards" },
+    "siteContent/{contentId}": { "schema": "SiteContent", "description": "Dynamic branding and section paragraphs" }
+  }
+}

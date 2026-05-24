@@ -1,0 +1,92 @@
+import { ShieldCheck, MessageSquare, Smartphone, Eye, CreditCard, HeartHandshake } from "lucide-react";
+import { motion } from "motion/react";
+
+export default function WhyChooseMe() {
+  const cards = [
+    {
+      icon: <ShieldCheck size={22} className="text-blue-600" />,
+      title: "Premium Design Quality",
+      desc: "No boring template clones. Every interface is designed with meticulous Swiss typographic hierarchies and custom micro-motion feedback.",
+      gradient: "from-blue-50/20 to-indigo-50/20"
+    },
+    {
+      icon: <MessageSquare size={22} className="text-blue-600" />,
+      title: "Fast Response Time",
+      desc: "Absolute availability. Direct developer contact guarantees you get replies within minutes. No agency bureaucracy, just prompt results.",
+      gradient: "from-cyan-50/20 to-blue-50/20"
+    },
+    {
+      icon: <Smartphone size={22} className="text-blue-600" />,
+      title: "Mobile-Optimized Layouts",
+      desc: "More than half of global web traffic loads mobile screens. We build codebases prioritizing mobile touch response, layout flow, and image resizing.",
+      gradient: "from-indigo-50/20 to-violet-50/20"
+    },
+    {
+      icon: <Eye size={22} className="text-blue-600" />,
+      title: "SEO-Friendly Structures",
+      desc: "We output light semantic HTML, indexable structures, rapid core paints, and metadata arrays to make sure you rank high on Google.",
+      gradient: "from-emerald-50/20 to-teal-50/20"
+    },
+    {
+      icon: <CreditCard size={22} className="text-blue-600" />,
+      title: "Affordable Launch Pricing",
+      desc: "Get institutional, enterprise-grade web development craftsmanship at adaptive freelance pricing models that reflect direct task volumes.",
+      gradient: "from-amber-50/20 to-orange-50/20"
+    },
+    {
+      icon: <HeartHandshake size={22} className="text-blue-600" />,
+      title: "Long-Term Dev Support",
+      desc: "We don't vanish post-launch. You receive 30 days of complimentary server maintenance, custom diagnostic reporting, and setup help.",
+      gradient: "from-rose-50/20 to-purple-50/20"
+    }
+  ];
+
+  return (
+    <section id="why-choose-me" className="py-24 bg-slate-50/30 border-y border-slate-100 scroll-mt-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Module title */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="font-mono text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3.5 py-1.5 rounded-full inline-block">
+            Value Proposition
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-4 text-slate-900 tracking-tight">
+            Why Successful Brands Work With Us
+          </h2>
+          <p className="font-sans text-base text-slate-500 mt-4 leading-relaxed">
+            We avoid standard low-tier visual clutter, focusing instead on high loading speeds, tight form security, and beautiful responsive design.
+          </p>
+        </div>
+
+        {/* Bento grid cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6.5">
+          {cards.map((card, idx) => (
+            <motion.div
+              key={idx}
+              whileHover={{ 
+                y: -5,
+                boxShadow: "0 20px 45px -15px rgba(59, 130, 246, 0.12)",
+                borderColor: "#bfdbfe"
+              }}
+              className={`group bg-white border border-slate-200/85 p-6 rounded-2xl flex flex-col justify-start text-left space-y-4 transition-all duration-305 bg-gradient-to-br ${card.gradient}`}
+            >
+              <div className="w-11 h-11 rounded-xl bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white flex items-center justify-center transition-colors duration-300">
+                {card.icon}
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-lg font-bold text-slate-900">
+                  {card.title}
+                </h3>
+                <p className="font-sans text-xs text-slate-500 leading-relaxed font-medium">
+                  {card.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
